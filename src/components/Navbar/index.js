@@ -1,7 +1,9 @@
 "use client";
 
-import { adminNavOptions, navOptions } from "@/utils";
-import { Fragment } from "react";
+import { GlobalContext } from "@/context";
+import { adminNavOptions, navOptions, styles } from "@/utils";
+import { Fragment, useContext } from "react";
+import CommonModal from "../CommonModal";
 
 const isAdminView = false;
 const isAuthUser = true;
@@ -9,17 +11,21 @@ const user = {
     role: "admin",
 };
 
-const NavItems = () => {
+const NavItems = ({ isModalView = false }) => {
     return (
         <div
-            className="items-center justify-between w-full md:flex md:w-auto"
+            className={`items-center justify-between w-full md:flex md:w-auto ${isModalView ? "" : "hidden"
+                }`}
             id="nav-items"
         >
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0">
+            <ul
+                className={`flex flex-col p-4 md:p-0 mt-4 font-medium rounded-lg md:flex-row md:space-x-8 md:mt-0 md:border-0 bg-blue-400 ${isModalView ? "border-none" : "border border-gray-100"
+                    }`}
+            >
                 {isAdminView
                     ? adminNavOptions.map((item) => (
                         <li
-                            className="cursor-pointer block py-2 pl-3 pr-4 rounded md:p-0"
+                            className="cursor-pointer block py-2 pl-3 pr-4 text-gray-900 rounded md:p-0"
                             key={item.id}
                         >
                             {item.label}
@@ -39,33 +45,34 @@ const NavItems = () => {
 };
 
 export default function Navbar() {
+    const { showNavModal, setShowNavModal } = useContext(GlobalContext);
     return (
         <>
-            <nav className="bg-blue-700 fixed w-full z-20 top-0 left-0 border-b border-blue-900">
+            <nav className="bg-blue-400 fixed w-full z-20 top-0 left-0 border-b border-blue-900">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <div className="flex items-center cursor-pointer">
                         <span className="slef-center text-2xl font-semibold whitespace-nowrap">
-                            E-Commerce 49.28
+                            E-Commerce
                         </span>
                     </div>
                     <div className="flex md:order-2 gap-2">
                         {!isAdminView && isAuthUser ? (
                             <Fragment>
-                                <button className="{styles.button}">Account</button>
-                                <button className="{styles.button}">Cart</button>
+                                <button className={styles.button}>Account</button>
+                                <button className={styles.button}>Cart</button>
                             </Fragment>
                         ) : null}
                         {user?.role === "admin" ? (
                             isAdminView ? (
-                                <button className="{styles.button}">Client</button>
+                                <button className={styles.button}>Client</button>
                             ) : (
-                                <button className="{styles.button}">Admin</button>
+                                <button className={styles.button}>Admin</button>
                             )
                         ) : null}
                         {isAuthUser ? (
-                            <button className="{styles.button}">Logout</button>
+                            <button className={styles.button}>Logout</button>
                         ) : (
-                            <button className="{styles.button}">Login</button>
+                            <button className={styles.button}>Login</button>
                         )}
                         <button
                             data-collapse-toggle="navbar-sticky"
@@ -73,6 +80,7 @@ export default function Navbar() {
                             className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                             aria-controls="navbar-sticky"
                             aria-expanded="false"
+                            onClick={() => setShowNavModal(true)}
                         >
                             <span className="sr-only">Open main menu</span>
                             <svg
@@ -93,6 +101,12 @@ export default function Navbar() {
                     <NavItems />
                 </div>
             </nav>
+            <CommonModal
+                showModalTitle={false}
+                mainContent={<NavItems isModalView={true} />}
+                show={showNavModal}
+                setShow={setShowNavModal}
+            />
         </>
     );
 }
