@@ -6,22 +6,22 @@ export const navOptions = [
     },
     {
         id: "listing",
-        label: "All Products",
+        label: "Semua Produk",
         path: "/product/listing/all-products",
     },
     {
         id: "listingMen",
-        label: "Men",
+        label: "Laki-laki",
         path: "/product/listing/men",
     },
     {
         id: "listingWomen",
-        label: "Women",
+        label: "Wanita",
         path: "/product/listing/women",
     },
     {
         id: "listingKids",
-        label: "kids",
+        label: "Anak-anak",
         path: "/product/listing/kids",
     },
 ];
@@ -29,12 +29,12 @@ export const navOptions = [
 export const adminNavOptions = [
     {
         id: "adminListing",
-        label: "Manage All Products",
+        label: "Kelola Semua Produk",
         path: "/admin-view/all-products",
     },
     {
         id: "adminNewProduct",
-        label: "Add New Product",
+        label: "Tambahkan Produk Baru",
         path: "/admin-view/add-product",
     },
 ];
@@ -43,28 +43,28 @@ export const registrationFormControls = [
     {
         id: "name",
         type: "text",
-        placeholder: "Enter your name",
-        label: "Name",
+        placeholder: "Masukkan nama Anda",
+        label: "Nama",
         componentType: "input",
     },
     {
         id: "email",
         type: "email",
-        placeholder: "Enter your email",
+        placeholder: "Masukkan email Anda",
         label: "Email",
         componentType: "input",
     },
     {
         id: "password",
         type: "password",
-        placeholder: "Enter your password",
+        placeholder: "Masukkan kata sandi Anda",
         label: "Password",
         componentType: "input",
     },
     {
         id: "role",
         type: "",
-        placeholder: "",
+        placeholder: "Pilih Role Anda",
         label: "Role",
         componentType: "select",
         options: [
@@ -74,7 +74,7 @@ export const registrationFormControls = [
             },
             {
                 id: "customer",
-                label: "customer",
+                label: "Pelanggan",
             },
         ],
     },
@@ -84,14 +84,14 @@ export const loginFormControls = [
     {
         id: "email",
         type: "email",
-        placeholder: "Enter your email",
+        placeholder: "Masukkan email Anda",
         label: "Email",
         componentType: "input",
     },
     {
         id: "password",
         type: "password",
-        placeholder: "Enter your password",
+        placeholder: "Masukkan kata sandi Anda",
         label: "Password",
         componentType: "input",
     },
@@ -101,22 +101,22 @@ export const adminAddProductformControls = [
     {
         id: "name",
         type: "text",
-        placeholder: "Enter name",
-        label: "Name",
+        placeholder: "Masukkan nama",
+        label: "Nama",
         componentType: "input",
     },
     {
         id: "price",
         type: "number",
-        placeholder: "Enter price",
-        label: "Price",
+        placeholder: "Masukkan harga",
+        label: "Harga",
         componentType: "input",
     },
     {
         id: "description",
         type: "text",
-        placeholder: "Enter description",
-        label: "Description",
+        placeholder: "Masukkan deskripsi",
+        label: "Deskripsi",
         componentType: "input",
     },
     {
@@ -143,8 +143,8 @@ export const adminAddProductformControls = [
     {
         id: "deliveryInfo",
         type: "text",
-        placeholder: "Enter deliveryInfo",
-        label: "Delivery Info",
+        placeholder: "Masukkan Info Pengiriman",
+        label: "Info Pengiriman",
         componentType: "input",
     },
     {
@@ -237,8 +237,3 @@ export const addNewAddressFormControls = [
         componentType: "input",
     },
 ];
-
-
-export const styles = {
-    button: "mt-1.5 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white",
-};

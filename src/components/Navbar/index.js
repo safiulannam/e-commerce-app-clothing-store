@@ -1,7 +1,7 @@
 "use client";
 
 import { GlobalContext } from "@/context";
-import { adminNavOptions, navOptions, styles } from "@/utils";
+import { adminNavOptions, navOptions } from "@/utils";
 import { Fragment, useContext } from "react";
 import CommonModal from "../CommonModal";
 
@@ -48,31 +48,67 @@ export default function Navbar() {
     const { showNavModal, setShowNavModal } = useContext(GlobalContext);
     return (
         <>
-            <nav className="bg-blue-400 fixed w-full z-20 top-0 left-0 border-b border-blue-900">
+            <nav className="bg-blue-400 fixed w-full z-20 top-0 left-0 border-b border-blue-500">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                     <div className="flex items-center cursor-pointer">
-                        <span className="slef-center text-2xl font-semibold whitespace-nowrap">
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap">
                             E-Commerce
                         </span>
                     </div>
                     <div className="flex md:order-2 gap-2">
                         {!isAdminView && isAuthUser ? (
                             <Fragment>
-                                <button className={styles.button}>Account</button>
-                                <button className={styles.button}>Cart</button>
+                                <button
+                                    className={
+                                        "mt-1.5 inline-block px-5 py-3 text-xs  bg-white font-medium uppercase tracking-wide text-blue-400"
+                                    }
+                                >
+                                    Account
+                                </button>
+                                <button
+                                    className={
+                                        "mt-1.5 inline-block px-5 py-3 text-xs  bg-white font-medium uppercase tracking-wide text-blue-400"
+                                    }
+                                >
+                                    Cart
+                                </button>
                             </Fragment>
                         ) : null}
                         {user?.role === "admin" ? (
                             isAdminView ? (
-                                <button className={styles.button}>Client</button>
+                                <button
+                                    className={
+                                        "mt-1.5 inline-block px-5 py-3 text-xs bg-white font-medium uppercase tracking-wide text-blue-400"
+                                    }
+                                >
+                                    Client
+                                </button>
                             ) : (
-                                <button className={styles.button}>Admin</button>
+                                <button
+                                    className={
+                                        "mt-1.5 inline-block px-5 py-3 text-xs bg-white font-medium uppercase tracking-wide text-blue-400"
+                                    }
+                                >
+                                    Admin
+                                </button>
                             )
                         ) : null}
                         {isAuthUser ? (
-                            <button className={styles.button}>Logout</button>
+                            <button
+                                className={
+                                    "mt-1.5 inline-block px-5 py-3 text-xs bg-white font-medium uppercase tracking-wide text-blue-400"
+                                }
+                            >
+                                Logout
+                            </button>
                         ) : (
-                            <button className={styles.button}>Login</button>
+                            <button
+                                className={
+                                    "mt-1.5 inline-block px-5 py-3 text-xs bg-white font-medium uppercase tracking-wide text-blue-400"
+                                }
+                            >
+                                Login
+                            </button>
                         )}
                         <button
                             data-collapse-toggle="navbar-sticky"
