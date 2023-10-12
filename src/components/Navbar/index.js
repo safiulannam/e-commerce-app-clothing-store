@@ -2,16 +2,13 @@
 
 import { GlobalContext } from "@/context";
 import { adminNavOptions, navOptions } from "@/utils";
-import { Fragment, useContext } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import CommonModal from "../CommonModal";
+import Cookies from "js-cookie";
+import { usePathname, useRouter } from "next/navigation";
 
-const isAdminView = false;
-const isAuthUser = true;
-const user = {
-    role: "admin",
-};
 
-const NavItems = ({ isModalView = false }) => {
+const NavItems = ({ isModalView = false, isAdminView, router }) => {
     return (
         <div
             className={`items-center justify-between w-full md:flex md:w-auto ${isModalView ? "" : "hidden"
@@ -46,11 +43,29 @@ const NavItems = ({ isModalView = false }) => {
 
 export default function Navbar() {
     const { showNavModal, setShowNavModal } = useContext(GlobalContext);
+    const { user, isAuthUser, setUser, setIsAuthUser } =
+        useContext(GlobalContext);
+
+    const pathName = usePathname();
+    const router = useRouter();
+
+    console.log(user, isAuthUser, "navbar");
+
+    function handleLogout() {
+        setIsAuthUser(false);
+        setUser(null);
+        Cookies.remove("token");
+        localStorage.clear();
+        router.push("/");
+    }
+
+    const isAdminView = pathName.includes("admin-view");
+
     return (
         <>
             <nav className="bg-blue-400 fixed w-full z-20 top-0 left-0 border-b border-blue-500">
                 <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                    <div className="flex items-center cursor-pointer">
+                    <div onClick={() => router.push("/")} className="flex items-center cursor-pointer">
                         <span className="self-center text-2xl font-semibold whitespace-nowrap">
                             E-Commerce
                         </span>
@@ -62,6 +77,7 @@ export default function Navbar() {
                                     className={
                                         "mt-1.5 inline-block px-5 py-3 text-xs  bg-white font-medium uppercase tracking-wide text-blue-400"
                                     }
+                                    onClick={()=>router.push('/account')}
                                 >
                                     Account
                                 </button>
@@ -69,6 +85,7 @@ export default function Navbar() {
                                     className={
                                         "mt-1.5 inline-block px-5 py-3 text-xs  bg-white font-medium uppercase tracking-wide text-blue-400"
                                     }
+                                    onClick={()=> setShowCartModal(true)}
                                 >
                                     Cart
                                 </button>
@@ -80,11 +97,13 @@ export default function Navbar() {
                                     className={
                                         "mt-1.5 inline-block px-5 py-3 text-xs bg-white font-medium uppercase tracking-wide text-blue-400"
                                     }
+                                    onClick={() => router.push("/")}
                                 >
                                     Client
                                 </button>
                             ) : (
                                 <button
+                                    onClick={() => router.push("/admin-view")}
                                     className={
                                         "mt-1.5 inline-block px-5 py-3 text-xs bg-white font-medium uppercase tracking-wide text-blue-400"
                                     }
@@ -95,6 +114,7 @@ export default function Navbar() {
                         ) : null}
                         {isAuthUser ? (
                             <button
+                                onClick={handleLogout}
                                 className={
                                     "mt-1.5 inline-block px-5 py-3 text-xs bg-white font-medium uppercase tracking-wide text-blue-400"
                                 }
@@ -103,13 +123,14 @@ export default function Navbar() {
                             </button>
                         ) : (
                             <button
+                                onClick={() => router.push("/login")}
                                 className={
                                     "mt-1.5 inline-block px-5 py-3 text-xs bg-white font-medium uppercase tracking-wide text-blue-400"
                                 }
                             >
                                 Login
                             </button>
-                        )}
+                        )}  
                         <button
                             data-collapse-toggle="navbar-sticky"
                             type="button"
@@ -134,15 +155,22 @@ export default function Navbar() {
                             </svg>
                         </button>
                     </div>
-                    <NavItems />
+                    <NavItems router={router} isAdminView={isAdminView} />
                 </div>
             </nav>
             <CommonModal
-                showModalTitle={false}
-                mainContent={<NavItems isModalView={true} />}
-                show={showNavModal}
-                setShow={setShowNavModal}
-            />
-        </>
+        showModalTitle={false}
+        mainContent={
+          <NavItems
+            router={router}
+            isModalView={true}
+            isAdminView={isAdminView}
+          />
+        }
+        show={showNavModal}
+        setShow={setShowNavModal}
+      />
+      {/* {showCartModal && <CartModal />} */}
+    </>
     );
 }

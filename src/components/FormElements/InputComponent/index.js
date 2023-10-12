@@ -1,5 +1,3 @@
-import { types } from "joi";
-
 export default function InputComponent({
     label,
     placeholder,

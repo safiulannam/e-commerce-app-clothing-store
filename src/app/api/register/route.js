@@ -1,4 +1,6 @@
 import connectToDB from "@/database";
+import User from "@/models/user";
+import { hash } from "bcryptjs";
 import Joi from "joi";
 import { NextResponse } from "next/server";
 
@@ -12,26 +14,28 @@ const schema = Joi.object({
 export const dynamic = "force-dynamic";
 
 export async function POST(req) {
+
     await connectToDB();
 
     const { name, email, password, role } = await req.json();
 
-    //validasi schma
     const { error } = schema.validate({ name, email, password, role });
 
     if (error) {
+        console.log(error);
         return NextResponse.json({
             success: false,
-            message: email.details[0],
+            message: error.details[0].message,
         });
     }
-    
+
     try {
         const isUserAlreadyExists = await User.findOne({ email });
+
         if (isUserAlreadyExists) {
             return NextResponse.json({
                 success: false,
-                message: "Email sudah ada. silakan coba dengan email yang berbeda.",
+                message: "Email sudah ada nih. silakan coba dengan email yang berbeda yah.",
             });
         } else {
             const hashPassword = await hash(password, 12);
@@ -46,15 +50,16 @@ export async function POST(req) {
             if (newlyCreatedUser) {
                 return NextResponse.json({
                     success: true,
-                    message: "Selamat!:) Akun anda berhasil dibuat",
+                    message: "yeeaayy.... Selamat!:) Akun anda berhasil dibuat",
                 });
             }
         }
     } catch (error) {
-        console.log("Error is new user registration");
+        console.log("Kesalahan saat pendaftaran akun. Silakan coba lagi nanti ya");
+        
         return NextResponse.json({
             success: false,
-            message: "Ada yang salah! Silakan coba lagi nanti",
+            message: "uppss... ada yang salah! Silakan coba lagi nanti yah",
         });
     }
 }

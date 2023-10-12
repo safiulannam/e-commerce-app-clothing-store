@@ -1,17 +1,17 @@
-export const registerNewUser = async (FormData) => {
+export const registerNewUser = async (formData) => {
     try {
         const response = await fetch("/api/register", {
             method: "POST",
             headers: {
                 "content-type": "application/json",
             },
-            body: JSON.stringify(FormData),
+            body: JSON.stringify(formData),
         });
 
-        const finalData = response.json();
+        const finalData = await response.json();
 
         return finalData;
     } catch (e) {
-        console.log("errpr", e);
+        console.log("error", e);
     }
 };
